@@ -4,7 +4,7 @@ info:
   description: A Web Connected Lamp. Thing Description with OpenAPI 3.0.0. More Info on [Mozilla WoT and Examples](https://iot.mozilla.org/wot/).
   version: 0.0.1
 servers:
-  - url: phyunsj.github.io/web-thing-swagger-page
+  - url: https://phyunsj.github.io/web-thing-swagger-page
     description: GitHub Page 
   - url: http://{Node-RED}/{basePath}
     description: Node-RED Server 
