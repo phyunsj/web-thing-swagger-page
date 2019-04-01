@@ -14,7 +14,7 @@ GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.
 <img src="https://github.com/phyunsj/web-thing-swagger-page/blob/master/images/wot-node-red.png" width="750px"/>
 </p>
 
-Instead of creating multiple API endpoints (mutiple http nodes. looks messy :cyclone: ), consolidate a single http node using `all()` routing method from `express`. (`RED.httpNode` is an instance of `express`) 
+Instead of creating multiple API endpoints (mutiple http nodes. looks messy :cyclone: ), consolidate all http nodes into a single node using `all()` routing method from `express`. (`RED.httpNode` is an instance of `express`) 
 
 - `nodes/core/io/21-httpin.html`
 
@@ -63,6 +63,8 @@ function HTTPIn(n) {
   ...
 }
 ```
+
+Alow to use `nedb` module directly in `function` node. Access `$HOME\actions.db` and `$HOME\events.db` to generate GET/POST responses. This is not an ideal approach but it is good enough to test REST APIs.
 
 - `nodes/core/core/80-function.js`
 
@@ -115,3 +117,4 @@ function FunctionNode(n) {
 - [swagger-editor](https://github.com/swagger-api/swagger-editor)
 - [AsyncAPI - Messsage Drive API](https://www.asyncapi.com/)
 - [Run Chrome browser without CORS](https://alfilatov.com/posts/run-chrome-without-cors/)
+- [nedb : JSON database](https://github.com/louischatriot/nedb)
