@@ -1,0 +1,548 @@
+openapi: 3.0.0
+info:
+  title: Home Automation
+  description: A Web Connected Lamp. Thing Description with OpenAPI 3.0.0. More Info on [Mozilla WoT and Examples](https://iot.mozilla.org/wot/).
+  version: 0.0.1
+servers:
+  - url: http://{Node-RED}/{basePath}
+    description: Node-RED Server 
+    variables:
+      Node-RED:
+        default: '127.0.0.1:1880'
+      basePath: 
+        default: 'things/lamp/v1'
+  - url: http://{swagger-editor-host}:3001
+    description: Swagger Editor
+    variables:
+      swagger-editor-host:
+        default: '127.0.0.1:3001'
+
+tags:
+  - name: lamp properties
+    description: Change(or retrive) the properties of lamp
+  - name: lamp actions
+    description: Control additional settings & query a list of actions
+  - name: lamp events
+    description: Query all(or some) events of lamp
+paths:
+  /:
+    get:
+      summary : a list of properties. Everthing about WoT lamp.
+      tags:
+        - lamp properties
+      operationId: findThingProperties
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+             schema: 
+              type: object
+              properties:
+                name: 
+                  type: string
+                  example: WoT Lamp
+                description:
+                  type: string
+                  example: A WoT connected Raspberry Lamp
+                attributes:
+                  type: object
+                  properties:
+                    on:
+                      $ref: '#/components/schemas/attribute'
+                    level:
+                      $ref: '#/components/schemas/attribute'
+                  example:
+                    on: 
+                      title: on/off 
+                      description: on/off switch
+                      propertytype: boolean
+                      unit: boolean
+                      minimum: 0
+                      maximum: 1
+                      href: '/properties/on'
+                    level: 
+                      title: brihtness 
+                      description: adjust brightness level
+                      propertytype: number
+                      unit: number
+                      minimum: 0
+                      maximum: 100
+                      href: '/properties/brightness'
+                actions:
+                  type: object
+                  properties:
+                    fade: 
+                      $ref: '#/components/schemas/fade'
+                    reboot: 
+                      $ref: '#/components/schemas/reboot'
+                  example:
+                    fade:
+                      level: 56
+                      duration: 30
+                      href: '/actions/fade'
+                    reboot:
+                      delay: 5
+                      href: '/actions/reboot'
+                events:
+                  type: object
+                  properties:
+                    overheated:
+                      $ref: '#/components/schemas/event'
+                    reboot:
+                      $ref: '#/components/schemas/event'
+                  example:
+                    overheated:
+                      eventType: 'overheated'
+                      data: '105'
+                      timestamp: '2017-01-25T15:01:35+00:00'
+                    reboot:
+                      eventType: 'reboot'
+                      timestamp: '2017-01-24T15:01:35+00:00'
+        '400':
+          description: not able to read lamp properties
+  /properties:
+    get:
+      summary : the current status of lamp properties - on, brightness
+      operationId: findProperties
+      tags:
+        - lamp properties
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema: 
+                $ref: '#/components/schemas/lamp'
+        '400':
+          description: not able to read lamp properties
+  /properties/on:
+    get:
+      summary : the current status of lamp properties - on
+      operationId: findOnProperties
+      tags:
+        - lamp properties
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  on: 
+                    type: number
+                    example: 0
+        '400':
+          description: not able to read lamp properties
+    put:
+      summary : set lamp properties - on
+      operationId: SetOnProperties
+      tags:
+        - lamp properties
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                on:
+                  type: number
+                  example: 0
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  on: 
+                    type: number
+                    example: 0
+        '400':
+          description: not able to read lamp properties
+  /properties/brightness:
+    get:
+      summary : the current status of lamp properties - brightness
+      operationId: findBrightnessProperties
+      tags:
+        - lamp properties
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  level: 
+                    type: number
+                    example: 50
+        '400':
+          description: not able to read lamp properties
+    put:
+      summary : set lamp properties - brightness
+      operationId: setBrightnessProperties
+      tags:
+        - lamp properties
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                level:
+                  type: number
+                  example: 55
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  level: 
+                    type: number
+                    example: 55
+        '400':
+          description: not able to read lamp properties        
+  /actions:
+    get:
+      summary : a list of action requests in the queue
+      operationId: findActions
+      tags:
+        - lamp actions
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+             schema: 
+              type: array
+              items:
+                type: object
+                properties:
+                  fade:
+                    $ref: '#/components/schemas/fade'
+                  transaction: 
+                    $ref: '#/components/schemas/action'
+        '400':
+          description: not able to read action list  
+    post:
+      summary: fade the lamp to a given level
+      operationId: setActions
+      description: only one "fade" action is defined. "actions" handler and "actions/fade" handler are same for this example.
+      tags:
+        - lamp actions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fade:
+                  $ref: '#/components/schemas/fade'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+             schema: 
+              type: object
+              properties:
+                fade: 
+                  $ref: '#/components/schemas/fade'
+                href:
+                  type: string 
+                  example: '/actions/fade/IDnt1-YnQe6-qXUkJs7joZ'
+                status:
+                  type: string
+                  example: pending
+                timeRequestedd:
+                  type: string
+                  example: Sat Mar 30 2019 7:15:15 PM
+                timeCompleted:
+                  type: string
+                  example: N/A
+        '400':
+          description: Invalid Format.
+        '404':
+          description: Not Functional.
+        default:
+          description: Unexpected error
+  /actions/fade:
+    get:
+      summary : a list of "fade" action requests in the queue
+      operationId: findFadeActions
+      tags:
+        - lamp actions
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: string
+          description: Transaction ID.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+             schema: 
+              type: array
+              items:
+                type: object
+                properties:
+                  href:
+                    type: string 
+                    example: '/actions/fade/IDnt1-YnQe6-qXUkJs7joZ'
+                  status:
+                    type: string
+                    example: pending
+                  timeRequestedd:
+                    type: string
+                    example: Sat Mar 30 2019 7:15:15 PM
+                  timeCompleted:
+                    type: string
+                    example: N/A
+                  fade:
+                    $ref: '#/components/schemas/fade'
+                  
+        '400':
+          description: not able to read action list  
+    post:
+      summary: fade the lamp to a given level
+      operationId: setFadeActions
+      tags:
+        - lamp actions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                fade:
+                  $ref: '#/components/schemas/fade'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+             schema: 
+              type: object
+              properties:
+                fade: 
+                  $ref: '#/components/schemas/fade'
+                transaction: 
+                  $ref: '#/components/schemas/action'
+        '400':
+          description: Invalid Format.
+        '404':
+          description: Not Functional.
+        default:
+          description: Unexpected error
+  /actions/fade/{transactionId}:
+    get:
+      summary : a particuar action request in the queue
+      operationId: findFadeActionWithId
+      tags:
+        - lamp actions
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: string
+          description: Transaction ID.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+             schema: 
+              type: array
+              items:
+                type: object
+                properties:
+                  fade:
+                    $ref: '#/components/schemas/fade'
+                  href:
+                    type: string 
+                    example: '/actions/fade/IDnt1-YnQe6-qXUkJs7joZ'
+                  status:
+                    type: string
+                    example: pending
+                  timeRequestedd:
+                    type: string
+                    example: Sat Mar 30 2019 7:15:15 PM
+                  timeCompleted:
+                    type: string
+                    example: N/A
+        '400':
+          description: not able to read action list  
+    delete:
+      summary: remove a particular action
+      operationId: removeFadeActionWithId
+      tags:
+        - lamp actions
+      parameters:
+        - in: path
+          name: transactionId
+          required: true
+          schema:
+            type: string
+          description: Transaction ID.
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          description: Invalid Format.
+        '404':
+          description: Not Functional.
+        default:
+          description: Unexpected error
+  /actions/events:
+    get:
+      summary : a list of events registered in the store
+      operationId: findEvents
+      tags:
+        - lamp events
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+             schema: 
+              type: array
+              items:
+                $ref: '#/components/schemas/event'
+        '400':
+          description: not able to read event list  
+  /actions/events/{eventType}:
+    get:
+      summary : a list of event based on event type - reboot,...
+      operationId: findEventWithType
+      tags:
+        - lamp events
+      parameters:
+        - in: path
+          name: eventType
+          required: true
+          schema:
+            type: string
+          description: Event Type.
+          example: overheated
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+             schema: 
+              type: array
+              items:
+                $ref: '#/components/schemas/event'
+        '400':
+          description: not able to read event list  
+components:
+  schemas:
+    lamp:
+      type: object
+      properties:
+        on:
+          enum: [0,1]
+          default: 0
+          example: 1
+        level:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+          example: 50
+    fade:
+      type: object
+      properties:
+        level:
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 100
+          example: 50
+        duration:
+          type: integer
+          format: int32
+          minimum: 0
+          example: 2000
+        href:
+          type: string
+          example: '/actions/fade'
+    reboot:
+      type: object
+      properties:
+        delay:
+          type: integer
+          format: int32
+          multipleOf: 10
+          minimum: 0
+          maximum: 60
+          example: 50
+        href:
+          type: string
+          example: '/actions/reboot'
+    action:
+      type: object
+      properties:
+        href: 
+          type: string
+          example: '/action/fade/123e4567-e89b-12d3-a456-426655'
+        status: 
+          type: string
+          example: pending
+        timeRequested:
+          type: string
+          format: date-time
+          example: '2017-01-25T15:01:35+00:00' 
+        timeCompletd:
+          type: string
+          format: date-time
+          nullable: true
+          example: '2017-01-25T15:01:35+00:00'
+    event:
+      type: object
+      properties:
+        eventType: 
+          enum: [ overheated, reboot ]
+          example: 'overheated'
+        data:
+          type: string
+          example: '105'
+          nullable: true
+        timestamp:
+          type: string
+          format: date-time
+          example: '2017-01-25T15:01:35+00:00' 
+    attribute:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        propertyType:
+          enum: [ boolean, number ]
+        unit:
+          type: string
+          nullable: true
+        minimum:
+          type: integer
+          nullable: true
+        maximum:
+          type: integer
+          nullable: true
+        href:
+          type: string
