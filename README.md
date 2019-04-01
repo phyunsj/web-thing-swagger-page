@@ -1,6 +1,6 @@
 # Mozilla WebThings - OpenAPI version
 
-`swagger-editor` to create/edit OpenAPI version of Web Connected Lamp (Example 2) from [Mozilla WoT] (https://iot.mozilla.org/wot/)
+`swagger-editor` to create/edit OpenAPI version of Web Connected Lamp (Example 2) from [Mozilla WoT](https://iot.mozilla.org/wot/)
 
 GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.io/web-thing-swagger-page)
 
@@ -13,6 +13,8 @@ GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.
 <p align="center">
 <img src="https://github.com/phyunsj/web-thing-swagger-page/blob/master/images/wot-node-red.png" width="750px"/>
 </p>
+
+Instead of creating multiple API endpoints (mutiple http nodes. looks messy :cyclone: ), consolidate a single http node using `all()` routing method from `express`. (`RED.httpNode` is an instance of `express`) 
 
 - `nodes/core/io/21-httpin.html`
 
