@@ -19,7 +19,8 @@ GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.
 
 ```
   <div class="form-row">
-      <label for="node-input-method"><i class="fa fa-tasks"></i> <span data-i18n="httpin.label.method"></span></label>
+      <label for="node-input-method"><i class="fa fa-tasks"></i>
+          <span data-i18n="httpin.label.method"></span></label>
       <select type="text" id="node-input-method" style="width:70%;">
       <option value="get">GET</option>
       <option value="post">POST</option>
