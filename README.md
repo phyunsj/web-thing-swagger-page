@@ -1,8 +1,10 @@
 # Mozilla WebThings - OpenAPI version
 
-`swagger-editor` to create/edit OpenAPI version of Web Connected Lamp (Example 2) from [Mozilla WoT](https://iot.mozilla.org/wot/)
+## [Swagger Editor](https://github.com/swagger-api/swagger-editor)
 
-GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.io/web-thing-swagger-page)
+Create/edit OpenAPI version of Web Connected Lamp (Example 2) from [Mozilla WoT](https://iot.mozilla.org/wot/)
+
+GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.io/web-thing-swagger-page) Only `GET ` method is permitted.
 
 <p align="left">
 <img src="https://github.com/phyunsj/web-thing-swagger-page/blob/master/images/wot-openapi-swagger-editor.png" width="700px"/>
@@ -15,22 +17,7 @@ GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.
 </p>
 
 
-- `nodes/core/io/21-httpin.html` : add **ALL** option.
-
-```
-  <div class="form-row">
-      <label for="node-input-method"><i class="fa fa-tasks"></i>
-          <span data-i18n="httpin.label.method"></span></label>
-      <select type="text" id="node-input-method" style="width:70%;">
-      <option value="get">GET</option>
-      <option value="post">POST</option>
-      <option value="put">PUT</option>
-      <option value="delete">DELETE</option>
-      <option value="patch">PATCH</option>
-+     <option value="all">ALL</option>
-      </select>
-  </div>
-```
+#### Core node changes for this demo
 
 - `nodes/core/io/21-httpin.js` : consolidate all http nodes into a single node using `all()` routing method from `express` (`RED.httpNode` is an instance of `express`) instead of creating mutiple http nodes. (looks messy :cyclone: )
 
@@ -62,6 +49,23 @@ function HTTPIn(n) {
 + } 
   ...
 }
+```
+
+- `nodes/core/io/21-httpin.html` : add **ALL** option.
+
+```
+  <div class="form-row">
+      <label for="node-input-method"><i class="fa fa-tasks"></i>
+          <span data-i18n="httpin.label.method"></span></label>
+      <select type="text" id="node-input-method" style="width:70%;">
+      <option value="get">GET</option>
+      <option value="post">POST</option>
+      <option value="put">PUT</option>
+      <option value="delete">DELETE</option>
+      <option value="patch">PATCH</option>
++     <option value="all">ALL</option>
+      </select>
+  </div>
 ```
 
 - `nodes/core/core/80-function.js` : allow to use `nedb` module directly in `function` node. access `$HOME\actions.db` and `$HOME\events.db` to generate GET/POST responses. This is not an ideal approach but it is good enough to test REST APIs.
