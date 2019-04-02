@@ -10,6 +10,16 @@ GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.
 <img src="https://github.com/phyunsj/web-thing-swagger-page/blob/master/images/wot-openapi-swagger-editor.png" width="700px"/>
 </p>
 
+#### Install & Run swagger editor
+
+```
+$ git clone https://github.com/swagger-api/swagger-editor.git
+$ cd swagger-editor
+$ npm install
+$ npm run build
+$ npm start -> open the browser : http://localhost:3001
+```
+
 ## Node-RED REST Server
 
 <p align="center">
