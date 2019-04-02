@@ -111,7 +111,7 @@ function FunctionNode(n) {
 
 ####  Related Posts
 
-- [Mozilla WebThing API Specification] (https://iot.mozilla.org/wot/)
+- [Mozilla WebThing API Specification](https://iot.mozilla.org/wot/)
 - [Documenting APIs: A guide for technical writers and engineers](https://idratherbewriting.com/learnapidoc/)
 - [Swagger](https://swagger.io/)
 - [swagger-editor](https://github.com/swagger-api/swagger-editor)
