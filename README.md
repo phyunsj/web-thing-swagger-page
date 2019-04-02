@@ -32,7 +32,7 @@ GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.
   </div>
 ```
 
-- `nodes/core/io/21-httpin.js` : instead of creating multiple API endpoints (mutiple http nodes. looks messy :cyclone: ), consolidate all http nodes into a single node using `all()` routing method from `express`. (`RED.httpNode` is an instance of `express`) 
+- `nodes/core/io/21-httpin.js` : consolidate all http nodes into a single node using `all()` routing method from `express` (`RED.httpNode` is an instance of `express`) instead of creating mutiple http nodes. (looks messy :cyclone: )
 
 ```
 function HTTPIn(n) {
@@ -64,7 +64,7 @@ function HTTPIn(n) {
 }
 ```
 
-- `nodes/core/core/80-function.js` : alow to use `nedb` module directly in `function` node. Access `$HOME\actions.db` and `$HOME\events.db` to generate GET/POST responses. This is not an ideal approach but it is good enough to test REST APIs.
+- `nodes/core/core/80-function.js` : allow to use `nedb` module directly in `function` node. access `$HOME\actions.db` and `$HOME\events.db` to generate GET/POST responses. This is not an ideal approach but it is good enough to test REST APIs.
 
 ```
 function FunctionNode(n) {
