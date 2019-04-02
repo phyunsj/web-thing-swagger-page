@@ -14,9 +14,8 @@ GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.
 <img src="https://github.com/phyunsj/web-thing-swagger-page/blob/master/images/wot-node-red.png" width="750px"/>
 </p>
 
-Instead of creating multiple API endpoints (mutiple http nodes. looks messy :cyclone: ), consolidate all http nodes into a single node using `all()` routing method from `express`. (`RED.httpNode` is an instance of `express`) 
 
-- `nodes/core/io/21-httpin.html`
+- `nodes/core/io/21-httpin.html` : add **ALL** option.
 
 ```
   <div class="form-row">
@@ -32,7 +31,7 @@ Instead of creating multiple API endpoints (mutiple http nodes. looks messy :cyc
   </div>
 ```
 
-- `nodes/core/io/21-httpin.js`
+- `nodes/core/io/21-httpin.js` : instead of creating multiple API endpoints (mutiple http nodes. looks messy :cyclone: ), consolidate all http nodes into a single node using `all()` routing method from `express`. (`RED.httpNode` is an instance of `express`) 
 
 ```
 function HTTPIn(n) {
@@ -64,9 +63,7 @@ function HTTPIn(n) {
 }
 ```
 
-Alow to use `nedb` module directly in `function` node. Access `$HOME\actions.db` and `$HOME\events.db` to generate GET/POST responses. This is not an ideal approach but it is good enough to test REST APIs.
-
-- `nodes/core/core/80-function.js`
+- `nodes/core/core/80-function.js` : alow to use `nedb` module directly in `function` node. Access `$HOME\actions.db` and `$HOME\events.db` to generate GET/POST responses. This is not an ideal approach but it is good enough to test REST APIs.
 
 ```
 function FunctionNode(n) {
@@ -116,5 +113,5 @@ function FunctionNode(n) {
 - [Swagger](https://swagger.io/)
 - [swagger-editor](https://github.com/swagger-api/swagger-editor)
 - [AsyncAPI - Messsage Drive API](https://www.asyncapi.com/)
-- [Run Chrome browser without CORS](https://alfilatov.com/posts/run-chrome-without-cors/)
+- [Run Chrome browser without CORS](https://alfilatov.com/posts/run-chrome-without-cors/) : disable CORS if you wish to run swagger-editor & Node-RED server on the same machine to prevent fetch error.
 - [nedb : JSON database](https://github.com/louischatriot/nedb)
