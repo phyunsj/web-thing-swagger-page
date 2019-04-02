@@ -19,7 +19,7 @@ GitHub Page : [phyunsj.github.io/web-thing-swagger-page](https://phyunsj.github.
 
 #### Core node changes for this demo
 
-- `nodes/core/io/21-httpin.js` : consolidate all http nodes into a single node using `all()` routing method from `express` (`RED.httpNode` is an instance of `express`) instead of creating mutiple http nodes. (looks messy :cyclone: )
+- `nodes/core/io/21-httpin.js` : consolidate all http nodes into a single node using `all()` routing method from `express` (`RED.httpNode` is an instance of `express`) instead of creating mutiple http nodes. 
 
 ```
 function HTTPIn(n) {
@@ -51,7 +51,7 @@ function HTTPIn(n) {
 }
 ```
 
-- `nodes/core/io/21-httpin.html` : add **ALL** option.
+- `nodes/core/io/21-httpin.html` : add **ALL** option. 
 
 ```
   <div class="form-row">
@@ -66,6 +66,20 @@ function HTTPIn(n) {
 +     <option value="all">ALL</option>
       </select>
   </div>
+```
+
+set URL as `{basePath}/*` with **ALL** option. basePath is`/things/lamp/v1`.
+
+```
+RED.httpNode.all( "/things/lamp/v1/*" , ..., handler);
+ /*  
+   /things/lamp/v1       <- will be ignored
+  
+  The following URL will be accepted.
+   /things/lamp/v1/
+   /things/lamp/v1/actions
+   /things/lamp/v1/properties 
+ */
 ```
 
 - `nodes/core/core/80-function.js` : allow to use `nedb` module directly in `function` node. access `$HOME\actions.db` and `$HOME\events.db` to generate GET/POST responses. This is not an ideal approach but it is good enough to test REST APIs.
