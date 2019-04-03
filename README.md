@@ -81,7 +81,7 @@ function HTTPIn(n) {
 set URL as `{basePath}/*` with **ALL** option. basePath is`/things/lamp/v1`.
 
 ```
-RED.httpNode.all( "/things/lamp/v1/*" , ..., handler);
+RED.httpNode.all( "/things/lamp/v1/*" /* <- this.url */ , ..., handler);
  /*  
    /things/lamp/v1       <- will be ignored
   
@@ -108,6 +108,19 @@ function FunctionNode(n) {
 +            require : require,
    ...
 }
+```
+
+**Example** : function node "55d769c4.468388"
+```
+const homeDir = require('os').homedir();
+var Datastore = require('nedb');
+var db = new Datastore(homeDir+'/actions.db');
+db.loadDatabase();
+
+// convert "pending" to "complete" for msg.payload ( <- transacition-id) 
+db.update({ href: msg.payload }, { $set: { status: 'complete',timeCompleted : dateStr+' '+timeStr } }, { }, function (err, numReplaced) {
+    // Do something if any 
+});
 ```
 
 ## Host swagger editor (dist version) on GitHub Page
